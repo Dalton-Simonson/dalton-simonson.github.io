@@ -52,17 +52,17 @@ export default function ChoiceButton(props: choiceProps) {
 
   // return button
   return (
-        <label className="choice" style={styleCSS} tabIndex={0} key={props.id + ":" + props.val} aria-label={props.text} role={Choice_Role}>
-          <input
-              type="radio"
-              value={props.val}
-              checked={checked}
-              // onChange={onChangeHelper}
-              name={"" + props.id}
-          />
-          {/*&#x2665;*/}
-          ♡
-          <div className="questionText"><p>{props.text}</p></div>
-        </label>
+      <label className="choice" style={styleCSS} tabIndex={0} key={props.id + ":" + props.val} aria-label={props.text} role={Choice_Role}>
+        <input
+            type="radio"
+            value={props.val}
+            checked={checked}
+            onChange={onChangeHelper}
+            name={"" + props.id}
+        />
+        {/*&#x2665;*/}
+        ♡
+        <div className="questionText"><p>{props.text}</p></div>
+      </label>
   );
 }

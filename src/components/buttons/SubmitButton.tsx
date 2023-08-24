@@ -13,7 +13,7 @@ interface SubmitButtonProps {
     desired_intensity : String;
     age : number;
     workout_length: number;
-    isPersonalized: boolean;
+    isPersonalized: string;
     current_bpm: number;
     setResultsPage: (b : boolean) => void;
     setPlaylistID: (id : string | undefined) => void;
@@ -22,20 +22,20 @@ interface SubmitButtonProps {
 
 interface ServerResponse{
     data: JSON
-  }
-  
-  export function isServerResponse(geoJSON: any) : geoJSON is ServerResponse{
-  
-  if(geoJSON === undefined) return false;
+}
+
+export function isServerResponse(geoJSON: any) : geoJSON is ServerResponse{
+
+    if(geoJSON === undefined) return false;
 //   if (!("access_token" in geoJSON)) return false;
 //   if (!("refresh_token" in geoJSON)) return false;
 //   if (!("request" in geoJSON)) return false;
-  
-  return true
-  }
 
-  let access_token : string | undefined = "";
-  let refresh_token : string | undefined = "";
+    return true
+}
+
+let access_token : string | undefined = "";
+let refresh_token : string | undefined = "";
 
 /**
  * Submit button component. Handles sending data to the createPlaylist endpoint
@@ -55,7 +55,7 @@ function SubmitButton(props: SubmitButtonProps) {
         if(access_token === "" && refresh_token === ""){
 
             const token_response : string | Map<string, string> =
-             await checkResponse(await makeRequest("register-user-code?code=" + props.userCode))
+                await checkResponse(await makeRequest("register-user-code?code=" + props.userCode))
             // const token_response : string | Map<string, string> =
             //     await checkResponse(await makeRequest("register-user-code?code=" + params.get("code")))
 
@@ -66,18 +66,18 @@ function SubmitButton(props: SubmitButtonProps) {
         }
 
         let playlist_request: string ="generate-playlist?access_token=" + access_token
-        + "&refresh_token=" + refresh_token
-        + "&playlist_type=" + props.playlist_type
-        + "&intensity=" + props.desired_intensity
-        + "&genres=" + props.genres
-        + "&age=" + props.current_bpm
-        + "&workout_length=" + props.workout_length
-        + "&is_personalized=" + props.isPersonalized
+            + "&refresh_token=" + refresh_token
+            + "&playlist_type=" + props.playlist_type
+            + "&intensity=" + props.desired_intensity
+            + "&genres=" + props.genres
+            + "&age=" + props.current_bpm
+            + "&workout_length=" + props.workout_length
+            + "&is_personalized=" + props.isPersonalized
 
         console.log(props.playlist_type)
 
         const playlist_response: string | Map<string, string> =
-        await checkResponse(await makeRequest(playlist_request))
+            await checkResponse(await makeRequest(playlist_request))
         console.log(playlist_request)
 
         let playlist_id : string | undefined

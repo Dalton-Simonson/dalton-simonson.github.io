@@ -17,7 +17,7 @@ interface questionProps {
   setDesiredAge: (age : number) => void;
   setDesiredLength: (length : number) => void;
   setDesiredBPM: (bpm : number) => void;
-  setIsPersonalized: (b : boolean) => void;
+  setIsPersonalized: (s : string) => void;
 }
 
 /**
@@ -51,37 +51,37 @@ export default function ModeQuestionComponent(props: questionProps) {
   }
 
   const choices =
-    props.choices instanceof Array ? (
-      props.choices.map((c) => (
-        <ModeButton
-          {...c}
-          id={props.id}
-          setValue={props.setChoice}
-          checkChoice={checkChoice}
-          setDesiredAge={props.setDesiredAge}
-          setDesiredLength={props.setDesiredLength}
-          setDesiredBPM={props.setDesiredBPM}
-          setDesiredIntensity={props.setDesiredIntensity}
-          setIsPersonalized={props.setIsPersonalized}
-        />
-      ))
-    ) : (
-        <div className="center">
-      <div className="slider">
-        <SliderUI
-          currentVal={90}
-          // setCurrentVal={(n) => props.setChoice(props.id, n)}
-            setCurrentVal={n => setNumHelper(n)}
-          id={props.id}
-        />
-      </div>
-        </div>
-    );
+      props.choices instanceof Array ? (
+          props.choices.map((c) => (
+              <ModeButton
+                  {...c}
+                  id={props.id}
+                  setValue={props.setChoice}
+                  checkChoice={checkChoice}
+                  setDesiredAge={props.setDesiredAge}
+                  setDesiredLength={props.setDesiredLength}
+                  setDesiredBPM={props.setDesiredBPM}
+                  setDesiredIntensity={props.setDesiredIntensity}
+                  setIsPersonalized={props.setIsPersonalized}
+              />
+          ))
+      ) : (
+          <div className="center">
+            <div className="slider">
+              <SliderUI
+                  currentVal={90}
+                  // setCurrentVal={(n) => props.setChoice(props.id, n)}
+                  setCurrentVal={n => setNumHelper(n)}
+                  id={props.id}
+              />
+            </div>
+          </div>
+      );
 
   return (
-    <div className="questionItem" aria-label={ModeQuestion_AriaLabel}>
-      <div className="question" role={Question_Role} aria-label={props.question} tabIndex={0}>{props.question} </div>
-      <div className="modeChoicesList">{choices}</div>
-    </div>
+      <div className="questionItem" aria-label={ModeQuestion_AriaLabel}>
+        <div className="question" role={Question_Role} aria-label={props.question} tabIndex={0}>{props.question} </div>
+        <div className="modeChoicesList">{choices}</div>
+      </div>
   );
 }
