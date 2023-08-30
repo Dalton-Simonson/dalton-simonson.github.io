@@ -79,27 +79,23 @@ function SubmitButton(props: SubmitButtonProps) {
         props.setPlaylistID("");
 
         // try to get response & if that doesn't work, give an alert
-        try {
-            const playlist_response: string | Map<string, string> =
+        const playlist_response: string | Map<string, string> =
                 await checkResponse(await makeRequest(playlist_request))
-            console.log(playlist_request)
+        console.log(playlist_request)
 
-            let playlist_id : string | undefined
+        let playlist_id : string | undefined
 
-            if (playlist_response instanceof Map) {
-                playlist_id = playlist_response.get("playlist_id");
+        if (playlist_response instanceof Map) {
+            playlist_id = playlist_response.get("playlist_id");
 
-                props.setPlaylistID(playlist_id)
+            props.setPlaylistID(playlist_id)
 
-                // Redirect to result page
-                props.setResultsPage(true);
-            } else {
-                console.log("request failed...");
-                window.alert("Sorry, we could not find enough songs to create this playlist! Consider adding another genre or using your liked songs.")
-            }
-        } catch (error) {
+            // Redirect to result page
+            props.setResultsPage(true);
+        } else {
             console.log("request failed...");
             window.alert("Sorry, we could not find enough songs to create this playlist! Consider adding another genre or using your liked songs.")
+        }
         }
     }
 
