@@ -1,7 +1,6 @@
 import { SubmitButton_AriaLabel, SubmitButton_Role } from "../../accessibility/Aria";
 import { checkResponse, makeRequest } from "../../requests";
 import {useState} from "react";
-import axios, { AxiosError } from 'axios';
 
 /**
  * Props for submit Button
