@@ -45,7 +45,6 @@ let refresh_token : string | undefined = "";
 function SubmitButton(props: SubmitButtonProps) {
     const [isLoading, setIsLoading] = useState(false);
     // request timeout of 30 seconds
-    const timeout = 30000;
 
     // log information & make api call
     async function logInfo() {
@@ -56,7 +55,7 @@ function SubmitButton(props: SubmitButtonProps) {
         if(access_token === "" && refresh_token === ""){
 
             const token_response : string | Map<string, string> =
-                await checkResponse(await makeRequest("register-user-code?code=" + props.userCode, timeout))
+                await checkResponse(await makeRequest("register-user-code?code=" + props.userCode))
             // const token_response : string | Map<string, string> =
             // await checkResponse(await makeRequest("register-user-code?code=" + params.get("code")))
 
@@ -83,7 +82,7 @@ function SubmitButton(props: SubmitButtonProps) {
         // try to get response & if that doesn't work, give an alert
         try {
             const playlist_response: string | Map<string, string> =
-                await checkResponse(await makeRequest(playlist_request, timeout))
+                await checkResponse(await makeRequest(playlist_request))
             console.log(playlist_request)
 
             let playlist_id : string | undefined
