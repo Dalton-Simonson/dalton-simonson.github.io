@@ -43,7 +43,6 @@ let refresh_token : string | undefined = "";
  */
 function SubmitButton(props: SubmitButtonProps) {
     const [isLoading, setIsLoading] = useState(false);
-    // request timeout of 30 seconds
 
     // log information & make api call
     async function logInfo() {
@@ -96,7 +95,6 @@ function SubmitButton(props: SubmitButtonProps) {
             console.log("request failed...");
             window.alert("Sorry, we could not find enough songs to create this playlist! Consider adding another genre or using your liked songs.")
         }
-        }
     }
 
     async function handleSubmit() {
@@ -112,7 +110,7 @@ function SubmitButton(props: SubmitButtonProps) {
         <button className="formSubmitButton" role={SubmitButton_Role} aria-label={SubmitButton_AriaLabel} tabIndex={0} onClick={handleSubmit} disabled={isLoading}>
             {isLoading ? 'Loading...' : 'Submit'}
         </button>
-    )
+    );
 }
 
 export { SubmitButton }
