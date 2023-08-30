@@ -4,8 +4,6 @@ import {
   Slider_Role,
   Slider_AriaLabel,
 } from "../accessibility/Aria";
-import { SliderValueLabelProps } from "@mui/material/Slider";
-import Tooltip from "@mui/material/Tooltip";
 import { Mark } from "@mui/base";
 
 /**

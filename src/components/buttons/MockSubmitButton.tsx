@@ -1,6 +1,8 @@
 import { SubmitButton_AriaLabel, SubmitButton_Role } from "../../accessibility/Aria";
-import { checkResponse, makeRequest } from "../../requests";
 
+/**
+ * MOCK submit button props. Used for testing
+ */
 interface MockSubmitButtonProps {
     userCode : String; // access code
     genres : String;

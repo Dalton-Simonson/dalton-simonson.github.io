@@ -1,6 +1,5 @@
 import { Footer_AriaLabel } from "../accessibility/Aria";
 
-
 /**
  * Component that represents the page title!
  * @returns the component JSX to be rendered with our title inside

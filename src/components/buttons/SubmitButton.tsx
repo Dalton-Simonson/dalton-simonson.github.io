@@ -1,6 +1,7 @@
 import { SubmitButton_AriaLabel, SubmitButton_Role } from "../../accessibility/Aria";
 import { checkResponse, makeRequest } from "../../requests";
 import {useState} from "react";
+import axios, { AxiosError } from 'axios';
 
 /**
  * Props for submit Button
@@ -24,14 +25,12 @@ interface ServerResponse{
     data: JSON
 }
 
-export function isServerResponse(geoJSON: any) : geoJSON is ServerResponse{
-
-    if(geoJSON === undefined) return false;
-//   if (!("access_token" in geoJSON)) return false;
-//   if (!("refresh_token" in geoJSON)) return false;
-//   if (!("request" in geoJSON)) return false;
-
-    return true
+/**
+ * Check if JSON is a server response
+ * @param geoJSON - input JSON, type any
+ */
+export function isServerResponse(geoJSON: any) : geoJSON is ServerResponse {
+    return geoJSON !== undefined;
 }
 
 let access_token : string | undefined = "";
@@ -45,6 +44,8 @@ let refresh_token : string | undefined = "";
  */
 function SubmitButton(props: SubmitButtonProps) {
     const [isLoading, setIsLoading] = useState(false);
+    // request timeout of 30 seconds
+    const timeout = 30000;
 
     // log information & make api call
     async function logInfo() {
@@ -55,9 +56,9 @@ function SubmitButton(props: SubmitButtonProps) {
         if(access_token === "" && refresh_token === ""){
 
             const token_response : string | Map<string, string> =
-                await checkResponse(await makeRequest("register-user-code?code=" + props.userCode))
+                await checkResponse(await makeRequest("register-user-code?code=" + props.userCode, timeout))
             // const token_response : string | Map<string, string> =
-            //     await checkResponse(await makeRequest("register-user-code?code=" + params.get("code")))
+            // await checkResponse(await makeRequest("register-user-code?code=" + params.get("code")))
 
             if (token_response instanceof Map) {
                 access_token = token_response.get("access_token");
@@ -76,20 +77,32 @@ function SubmitButton(props: SubmitButtonProps) {
 
         console.log(props.playlist_type)
 
-        const playlist_response: string | Map<string, string> =
-            await checkResponse(await makeRequest(playlist_request))
-        console.log(playlist_request)
+        // reset playlist id
+        props.setPlaylistID("");
 
-        let playlist_id : string | undefined
+        // try to get response & if that doesn't work, give an alert
+        try {
+            const playlist_response: string | Map<string, string> =
+                await checkResponse(await makeRequest(playlist_request, timeout))
+            console.log(playlist_request)
 
-        if (playlist_response instanceof Map) {
-            playlist_id = playlist_response.get("playlist_id");
+            let playlist_id : string | undefined
 
-            props.setPlaylistID(playlist_id)
+            if (playlist_response instanceof Map) {
+                playlist_id = playlist_response.get("playlist_id");
+
+                props.setPlaylistID(playlist_id)
+
+                // Redirect to result page
+                props.setResultsPage(true);
+            } else {
+                console.log("request failed...");
+                window.alert("Sorry, we could not find enough songs to create this playlist! Consider adding another genre or using your liked songs.")
+            }
+        } catch (error) {
+            console.log("request failed...");
+            window.alert("Sorry, we could not find enough songs to create this playlist! Consider adding another genre or using your liked songs.")
         }
-
-        // Redirect to result page
-        props.setResultsPage(true);
     }
 
     async function handleSubmit() {

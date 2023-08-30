@@ -7,14 +7,19 @@ import { server } from "./App";
  * @returns a promise resolving to a Map containing 1 key SUCCESS or ERROR, with 
  * details for each as the value
  */
-async function makeRequest(url: string): Promise<Map<string, string|object>> {
+async function makeRequest(url: string, timeout: number): Promise<Map<string, string|object>> {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+
     // Simple GET request using fetch
-    // make empty mape for responseMap
+    // make empty map for responseMap
     var responseMap: Map<string, string> = new Map();
     try {
         console.log(`requesting ${server + url}`);
         // fetch and wait
-        const response = await fetch(server + url);
+        const response = await fetch(server + url, {
+            signal: controller.signal, // Associate the controller's signal with the request
+        });
         try {
             // fetch worked! let's grab json!
             const data = await response.json();
@@ -26,7 +31,10 @@ async function makeRequest(url: string): Promise<Map<string, string|object>> {
     } catch (error) {
         // if fetch failed, we failed to make request!
         responseMap.set("ERROR", `failed to request from "${server + url}", error = "${error}"`);
+    } finally {
+        clearTimeout(timeoutId); // Clear the timeout when the request completes
     }
+
     // resolve to responseMap
     return new Promise((resolve) => resolve(responseMap));
 }

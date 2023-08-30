@@ -68,7 +68,6 @@ export default function QuestionComponent(props: questionProps) {
             <div className="slider">
               <SliderUI
                   currentVal={90}
-                  // setCurrentVal={(n) => props.setChoice(props.id, n)}
                   setCurrentVal={n => setNumHelper(n)}
                   id={props.id}
               />

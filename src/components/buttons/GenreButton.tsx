@@ -1,4 +1,3 @@
-import { hover } from "@testing-library/user-event/dist/types/setup/directApi";
 import "../../../styles/quiz.css";
 import {Choice_Role} from "../../accessibility/Aria";
 
