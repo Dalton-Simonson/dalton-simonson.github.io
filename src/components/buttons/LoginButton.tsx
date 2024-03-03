@@ -22,6 +22,7 @@ function LoginButton(props: LoginStatusProps) {
         //await fetch("http://localhost:3232/login")
         await fetch("https://heartbeats-ce72b0db6ebc.herokuapp.com/login")
         .then((response) => response.text())
+        .then((response) => response.replace('user-read-email%2C%20', '')) /** temporary scope bandaid fix **/
         .then(response => {window.location.replace(response);})
     }
 
